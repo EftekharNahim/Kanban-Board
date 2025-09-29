@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashStyle.css">
+</head>
+
+<body>
+    <div id="Log-Dash">
+        <a id="Log-Dash-inf" href="Login.html">Login</a>
+        <div id="Acc-inf">
+            <p style="padding-right: 5px;">sss</p>
+            <a href="Login.html">Logout</a>
+        </div>
+    </div>
+    <div id="Heading">
+        <div id="intro">
+            <h1>Kanban Board</h1>
+        </div>
+    </div>
+    <div id="All-Section">
+        <div class="k-task">
+            <div class="title" style="background-color: rgb(10, 167, 10);">
+                <h2>TODO</h2>
+            </div>
+            <div class="inf" id="todo">
+                <div class="task">
+                    <form action="">
+                        <label for="Title">Title</label>
+                        <input type="text" placeholder="Enter your title" name="Title" class="Title" required>
+                        <br>
+                        <label for="Description">Description</label>
+                        <input type="text" placeholder="Enter your description" name="Description" class="Description">
+                        <label for="assigned">Assigned</label>
+                    </form>
+                </div>
+                <button id="add-todo">Add task</button>
+            </div>
+        </div>
+        <div class="k-task">
+            <div class="title" style="background-color: rgb(240, 240, 52);">
+                <h2>In Progress</h2>
+            </div>
+            <div class="inf" id="Progress">
+
+            </div>
+        </div>
+        <div class="k-task">
+            <div class="title" style="background-color: rgb(241, 184, 77);">
+                <h2>Testing</h2>
+            </div>
+            <div class="inf" id="Testing">
+
+            </div>
+        </div>
+        <div class="k-task">
+            <div class="title" style="background-color: red;">
+                <h2>Finished</h2>
+            </div>
+            <div class="inf" id="Finished">
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
