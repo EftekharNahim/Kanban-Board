@@ -42,7 +42,7 @@
 }
 
 .task {
-    display: none;
+    display: block;
 }
 
 #Log-Dash {
@@ -64,4 +64,34 @@
     align-items: center;
     font-size: medium;
     padding-right: 10px;
+}
+
+#form{
+    display: none;
+    border: 1px solid black;
+    margin: 3px;
+}
+.fInput{
+    width: 95%;
+    min-height: 40px;
+    margin: 5px;
+}
+#add{
+    width: 95%;
+    min-height: 40px;
+    background-color: green;
+    color: black;
+    font-size: 30px;
+    margin: 5px;
+
+}
+#addToDo{
+    display: block;
+    width: 95%;
+    min-height: 40px;
+    background-color: blue;
+    color: black;
+    font-size: 30px;
+    margin: 5px;
+
 }

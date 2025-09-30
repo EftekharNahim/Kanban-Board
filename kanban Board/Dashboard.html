@@ -23,23 +23,32 @@
     </div>
     <div id="All-Section">
         <div class="k-task">
+            <!--           To Do Part            -->
+
             <div class="title" style="background-color: rgb(10, 167, 10);">
                 <h2>TODO</h2>
             </div>
-            <div class="inf" id="todo">
+            <div class="inf" >
+                <div id="todo"></div>
                 <div class="task">
-                    <form action="">
-                        <label for="Title">Title</label>
-                        <input type="text" placeholder="Enter your title" name="Title" class="Title" required>
+                    <form action="" id="form">
+                        <label for="Title">Title</label> <br>
+                        <input type="text" placeholder="Enter your title" name="Title" id="Title" class="fInput"
+                            required>
                         <br>
-                        <label for="Description">Description</label>
-                        <input type="text" placeholder="Enter your description" name="Description" class="Description">
-                        <label for="assigned">Assigned</label>
+                        <label for="Description">Description</label> <br>
+                        <input type="text" placeholder="Enter your description" name="Description" id="Description"
+                            class="fInput" optional> <br>
+                        <label for="assigned">Assigned</label> <br>
+                        <input type="text" id="Assign" placeholder="Assigned to" class="fInput">
+                        <button id="add" type="submit">Add</button>
                     </form>
+
                 </div>
-                <button id="addTodo">Add task</button>
+                <button id="addTodo" >Add task</button>
             </div>
         </div>
+        <!-- Progress part -->
         <div class="k-task">
             <div class="title" style="background-color: rgb(240, 240, 52);">
                 <h2>In Progress</h2>
@@ -48,6 +57,7 @@
 
             </div>
         </div>
+        <!-- Testing part -->
         <div class="k-task">
             <div class="title" style="background-color: rgb(241, 184, 77);">
                 <h2>Testing</h2>
@@ -56,6 +66,7 @@
 
             </div>
         </div>
+        <!-- Finished part -->
         <div class="k-task">
             <div class="title" style="background-color: red;">
                 <h2>Finished</h2>
