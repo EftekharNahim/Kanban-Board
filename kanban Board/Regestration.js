@@ -5,34 +5,49 @@ const User = document.querySelector("#Username");
 const mail = document.querySelector("#Mail");
 const Pass = document.querySelector("#password");
 const logForm = document.querySelector(".loginForm");
-const Valid = document.querySelector("#validReg");
+const Valid = document.querySelectorAll(".validReg");
 if (SignUpBtn) {
     SignUpBtn.addEventListener('click', () => {
         console.log('Button clicked!');
         console.log(User.value);
         let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        let passReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (Valid[0] && Valid[1] && Valid[2]) {
+            Valid[0].innerText = Valid[1].innerText = Valid[2].innerText = "";
+        }
         if (User.value === "") {
-            Valid.innerText = "Please Enter your User Name";
+            if (Valid[0])
+                Valid[0].innerText = "Please Enter your User Name";
         }
         else if (mail.value === "") {
-            Valid.innerText = "Please Enter Your Email";
+            if (Valid[1])
+                Valid[1].innerText = "Please Enter Your Email";
         }
         else if (!regex.test(mail.value)) {
-            Valid.innerText = "Enter valid email";
+            if (Valid[1])
+                Valid[1].innerText = "Enter valid email";
         }
         else if (Pass.value === "") {
-            Valid.innerText = "Please Enter a password";
+            if (Valid[2])
+                Valid[2].innerText = "Please Enter a password";
         }
-        else
-        {
+        else if (!passReg.test(Pass.value)) {
+            if (Valid[2])
+                Valid[2].innerText = "Password must be contain uppercase,lowercase,number,special Character and atleast length 8";
+        }
+        else {
             const obj = {
-                Username: User.value,
-                Email: mail.value,
-                Password:Pass.value
-
+                user: User.value,
+                email: mail.value,
+                password: Pass.value
+            };
+            if (localStorage.getItem(mail.value)) {
+                if (Valid[1])
+                    Valid[1].innerText = "This Email Already Registerd";
             }
+            else
+                localStorage.setItem(mail.value, JSON.stringify(obj));
         }
-
     });
 }
 //# sourceMappingURL=Regestration.js.map

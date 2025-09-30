@@ -54,11 +54,12 @@
 }
 
 #Log-Dash-inf {
-    display: none;
+    display: flex;
 }
 
-#Acc-inf {
-    display: flex;
+#AccInf {
+    /* display: none; */
+    display: none;
     justify-content: flex-end;
     align-items: center;
     font-size: medium;

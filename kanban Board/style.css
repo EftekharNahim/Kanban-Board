@@ -58,6 +58,9 @@
     color: aliceblue;
 
 }
+.validLog{
+    color: red;
+}
 
 /* Regestraton form */
 .Reg {
@@ -87,6 +90,6 @@
     color: aliceblue;
 
 }
-#validReg{
+.validReg{
     color: red;
 }
