@@ -70,11 +70,15 @@ function displayTask() {
     console.log(Data);
     if (todo) {
         todo.innerHTML = "";
+        Progress.innerHTML = "";
+        Testing.innerHTML = "";
+        Finished.innerHTML = "";
         Data.forEach(function (item) {
             var card = document.createElement("div");
             card.className = "card m-2";
             // card.style.width = "18rem";
-            card.innerHTML = "\n            <div class=\"card-body\" style=\"background-color: lightgrey; border:2px solid black;margin:5px; padding:5px;\">\n                <h5 class=\"card-title\">Title: ".concat(item.title, "</h5>\n                <h6 class=\"card-subtitle-to\">Assigned to: ").concat(item.Assign, "</h6>\n                <p class=\"card-text\">Description ").concat(item.description, "</p>\n                <div id=\"CngBtn\" style=\"display:flex; justify-content:space-between;\">\n                   <button onclick='DeleteTask(").concat(item.id, ")'>Delete</button>\n   <button onclick=\"MoveTask(").concat(item.id, ",'In Progress')\">Move to In Progress</button>\n   <button onclick='MoveTask(").concat(item.id, ", 'Testing')'>Move to Testing</button>\n   <button onclick='MoveTask(").concat(item.id, ", 'Finished')'>Move to Finished</button>\n                </div>\n                \n            </div>\n            ");
+            card.innerHTML = "\n            <div class=\"card-body\" style=\"background-color: lightgrey; border:2px solid black;margin:5px; padding:5px;\">\n                <h5 class=\"card-title\">Title: ".concat(item.title, "</h5>\n                <h6 class=\"card-subtitle-to\">Assigned to: ").concat(item.Assign, "</h6>\n                <p class=\"card-text\">Description ").concat(item.description, "</p>\n                <div id=\"CngBtn\" style=\"display:flex; justify-content:space-between;\">\n                   <button onclick='DeleteTask(").concat(item.id, ")'>Delete</button>\n              ").concat(item.status !== 'To Do' ? "<button onclick=\"MoveTask(".concat(item.id, ",'To Do')\">Move to TODO</button>") : "", "      \n            ").concat(item.status !== 'In Progress' ? "<button onclick=\"MoveTask(".concat(item.id, ",'In Progress')\">Move to Progress</button>") : "", "\n   ").concat(item.status !== 'Testing' ? "<button class=\"c\" onclick=\"MoveTask(".concat(item.id, ", 'Testing')\">Move to Testing</button>") : "", "\n    ").concat(item.status !== 'Finished' ? "<button class=\"d\" onclick=\"MoveTask(".concat(item.id, ", 'Finished')\">Move to Finished</button>") : "", "\n                </div>\n                \n            </div>\n            ");
+            console.log(card);
             if (item.status === 'To Do')
                 todo.appendChild(card);
             else if (item.status === 'In Progress')

@@ -1,13 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const LogBtn = document.querySelector("#log-btn");
-const Email = document.querySelector("#logEmail");
-const Pass = document.querySelector("#logPass");
-const Valid = document.querySelectorAll(".validLog");
+var LogBtn = document.querySelector("#log-btn");
+var Email = document.querySelector("#logEmail");
+var Pass = document.querySelector("#logPass");
+var Valid = document.querySelectorAll(".validLog");
 if (LogBtn) {
-    LogBtn.addEventListener('click', () => {
-        let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        let passReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    LogBtn.addEventListener('click', function () {
+        var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        var passReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         if (Valid[0] && Valid[1]) {
             Valid[0].innerText = Valid[1].innerText = "";
         }
@@ -29,9 +27,9 @@ if (LogBtn) {
         }
         else {
             if (localStorage.getItem(Email.value)) {
-                const obj = localStorage.getItem(Email.value);
+                var obj = localStorage.getItem(Email.value);
                 if (obj) {
-                    const Data = JSON.parse(obj);
+                    var Data = JSON.parse(obj);
                     if (Data.password === Pass.value) {
                         localStorage.setItem("DashUser", JSON.stringify(Data.user));
                         window.location.href = "Dashboard.html";
@@ -43,4 +41,3 @@ if (LogBtn) {
         }
     });
 }
-//# sourceMappingURL=Login.js.map

@@ -58,6 +58,9 @@ function displayTask() {
     console.log(Data);
     if (todo) {
         todo.innerHTML = "";
+         Progress.innerHTML = "";
+        Testing.innerHTML = "";
+        Finished.innerHTML = "";
         Data.forEach((item: { id: number, title: string, description: string, Assign: string, status: Status }) => {
             const card = document.createElement("div");
             card.className = "card m-2";
@@ -69,19 +72,22 @@ function displayTask() {
                 <p class="card-text">Description ${item.description}</p>
                 <div id="CngBtn" style="display:flex; justify-content:space-between;">
                    <button onclick='DeleteTask(${item.id})'>Delete</button>
-   <button onclick="MoveTask(${item.id},'In Progress')">Move to In Progress</button>
-   <button onclick='MoveTask(${item.id}, 'Testing')'>Move to Testing</button>
-   <button onclick='MoveTask(${item.id}, 'Finished')'>Move to Finished</button>
+              ${item.status !== 'To Do' ? `<button onclick="MoveTask(${item.id},'To Do')">Move to TODO</button>` : ""}      
+            ${item.status !== 'In Progress' ? `<button onclick="MoveTask(${item.id},'In Progress')">Move to Progress</button>` : ""}
+   ${item.status !== 'Testing' ? `<button class="c" onclick="MoveTask(${item.id}, 'Testing')">Move to Testing</button>` : ""}
+    ${item.status !== 'Finished' ? `<button class="d" onclick="MoveTask(${item.id}, 'Finished')">Move to Finished</button>` : ""}
                 </div>
                 
             </div>
             `;
-            if (item.status === 'To Do') todo.appendChild(card);
+            console.log(card);
+            if (item.status === 'To Do')todo.appendChild(card);
             else if (item.status === 'In Progress') Progress.appendChild(card);
-            else if(item.status==='Testing') Testing.appendChild(card);
-            else if(item.status==='Finished') Finished.appendChild(card);
+            else if (item.status === 'Testing') Testing.appendChild(card);
+            else if (item.status === 'Finished') Finished.appendChild(card);
         })
         if (AddTask) AddTask.style.display = "block";
+
     }
 }
 displayTask();
@@ -113,7 +119,7 @@ if (form) {
         }
         if (form) form.style.display = "none";
         if (AddTask) AddTask.style.display = "block";
-        window.location.reload();
+          window.location.reload();
     })
 }
 
