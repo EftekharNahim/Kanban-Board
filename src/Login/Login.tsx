@@ -13,7 +13,6 @@ function Login({ setUid }: LoginProps) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
     const [errors, setErrors] = useState<LoginErrors>({});
-
     const validate = () => {
             const newErrors: LoginErrors = {};
             if (!email.trim()) {
@@ -30,7 +29,7 @@ function Login({ setUid }: LoginProps) {
             } else {
                 const storedUser = localStorage.getItem(email);
                 if (storedUser) {
-                    const user = JSON.parse(storedUser);
+                  const user = JSON.parse(storedUser);
                     if (user.password !== password) {
                         newErrors.password = "Incorrect password";
                     }
@@ -42,9 +41,19 @@ function Login({ setUid }: LoginProps) {
             e.preventDefault();
             const validationErrors = validate();
             if (Object.keys(validationErrors).length === 0) {
-                
-                // Clear form fields
-                alert("Login successful!");
+              // Retrieve user from localStorage and setUid with user's name
+              const storedUser = localStorage.getItem(email);
+              let userName = "";
+              if (storedUser) {
+                const user = JSON.parse(storedUser);
+                userName = user.username;
+              }
+              setUid(userName);
+              // Clear form
+              setEmail("");
+              setPassword("");
+              setErrors({});
+               alert("Login successful!");
             } else {
                 // Set validation errors
                 setErrors(validationErrors);

@@ -1,0 +1,30 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.taskStatus{
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 3px;
+    padding: 10px;
+    min-width: 250px;
+    min-height: 900px;
+}
+.board-nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: aqua;
+    color: black;
+    font-weight: bold;
+}
+.taskCard{
+    display: block;
+    background-color: aliceblue;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid black;
+    margin-top: 10px;
+}
