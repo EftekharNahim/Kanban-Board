@@ -13,6 +13,7 @@ function Task({ taskStatus, setTaskStatus,boardData,setBoardData }: TaskProps) {
             <form onSubmit={(e) => {
                 e.preventDefault();
                 const obj = {
+                    id: Date.now(),
                     title: title,
                     description: description,
                     status: taskStatus

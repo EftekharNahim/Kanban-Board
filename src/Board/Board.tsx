@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import "./board.css";
 import Task from "./Task/Task.tsx";
+// Update the import path below to the correct location of your Button component.
+// For example, if using shadcn/ui, it should be:
+import { Button } from "@/components/ui/button";
+// Or adjust the path as needed to point to the correct file.
+
 function Board({ uid, setUid }: { uid: string | null; setUid: (uid: string | null) => void }) {
     const [status, setStatus] = useState<string | null>(null);
     const [boardData, setBoardData] = useState<any[]>([]);
@@ -10,6 +15,14 @@ function Board({ uid, setUid }: { uid: string | null; setUid: (uid: string | nul
         const existing = boardItem ? JSON.parse(boardItem) : [];
         setBoardData(existing);
     }, []);
+    
+    const deleteTask = (index: number) => {
+        const updatedTasks = boardData.filter((_, i) => i !== index);
+        setBoardData(updatedTasks);
+        localStorage.setItem("board", JSON.stringify(updatedTasks));
+    };
+
+    
 
     const filteredTasks = (taskStatus: string) => {
         return boardData?.filter((task) => task.status === taskStatus).map((task, index) => (
@@ -17,19 +30,19 @@ function Board({ uid, setUid }: { uid: string | null; setUid: (uid: string | nul
                           <h4>{task.title}</h4>
                 <p>{task.description}</p>
                 <div >
-                    {/* <button onClick={()=>}>Delete</button> */}
+                    <Button onClick={()=>deleteTask(index)}>Delete</Button>
                     {taskStatuses.map((status) => (
                         status !== task.status && (
-                            <button style={{backgroundColor:"blue", margin:"2px"}} key={status} onClick={() => {
+                            <Button style={{backgroundColor:"blue", margin:"2px"}} key={status} onClick={() => {
                                 const updatedTasks = boardData.map((t, i) => {
-                                    if (i === index) {
-                                        return { ...t, status: status };
+                                    if (t.id === task.id) {
+                                        return { ...t, status: status }
                                     }
                                     return t;
                                 });
                                 setBoardData(updatedTasks);
                                 localStorage.setItem("board", JSON.stringify(updatedTasks));
-                            }}>{status}</button>
+                            }}>{status}</Button>
                         )
                     ))}
                  </div>
