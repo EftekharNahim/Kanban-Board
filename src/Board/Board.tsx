@@ -34,7 +34,7 @@ function Board({ uid, setUid }: { uid: string | null; setUid: (uid: string | nul
                     {taskStatuses.map((status) => (
                         status !== task.status && (
                             <Button style={{backgroundColor:"blue", margin:"2px"}} key={status} onClick={() => {
-                                const updatedTasks = boardData.map((t, i) => {
+                                const updatedTasks = boardData.map((t) => {
                                     if (t.id === task.id) {
                                         return { ...t, status: status }
                                     }
