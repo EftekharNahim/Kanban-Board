@@ -1,64 +1,71 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import "./Login.css";
+import { api } from "@/api";
+import { Link, Navigate, redirect } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 interface LoginErrors {
   email?: string;
   password?: string;
+  message?: string;
 }
-interface LoginProps {
-  setUid: (uid: string) => void;
-}
-function Login({ setUid }: LoginProps) {
+
+
+function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-    const [errors, setErrors] = useState<LoginErrors>({});
-    const validate = () => {
-            const newErrors: LoginErrors = {};
-            if (!email.trim()) {
-                newErrors.email = "Email is required";
-            } else if (!/\S+@\S+\.\S+/.test(email) || /[A-Z]/.test(email)) {
-                newErrors.email = "Email is invalid";
-            } else if (!localStorage.getItem(email)) {
-                newErrors.email = "Email is not registered";
-            }
-            if (!password) {
-                newErrors.password = "Password is required";
-            } else if (password.length < 6) {
-                newErrors.password = "Password must be at least 6 characters";
-            } else {
-                const storedUser = localStorage.getItem(email);
-                if (storedUser) {
-                  const user = JSON.parse(storedUser);
-                    if (user.password !== password) {
-                        newErrors.password = "Incorrect password";
-                    }
-                }
-            }
-            return newErrors;
-        };
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            const validationErrors = validate();
-            if (Object.keys(validationErrors).length === 0) {
-              // Retrieve user from localStorage and setUid with user's name
-              const storedUser = localStorage.getItem(email);
-              let userName = "";
-              if (storedUser) {
-                const user = JSON.parse(storedUser);
-                userName = user.username;
-              }
-              setUid(userName);
-              // Clear form
-              setEmail("");
-              setPassword("");
-              setErrors({});
-               alert("Login successful!");
-            } else {
-                // Set validation errors
-                setErrors(validationErrors);
-            }
-        };
+  const [errors, setErrors] = useState<LoginErrors>({});
+   const navigate = useNavigate();
+  const validate = () => {
+    const newErrors: LoginErrors = {};
+    
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email) || /[A-Z]/.test(email)) {
+      newErrors.email = "Email is invalid";
+    } 
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    
+    }
+    return newErrors;
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length === 0) {
+      // Retrieve user from db and setUid with user's name
+
+      const obj = {
+        email: email,
+        password: password,
+      };
+
+      try {
+        const res = await api.post("/login", obj);
+        alert("Login succesful");
+        const username = res.data.username;
+        localStorage.setItem('username', username)
+        navigate('/');
+      } catch (error) {
+        alert(error);
+      }
+      // Clear form
+      setEmail("");
+      setPassword("");
+      setErrors({});
+      //alert("Login successful!");
+    } else {
+      // Set validation errors
+      setErrors(validationErrors);
+    }
+  };
 
   return (
     <div className="login">
@@ -85,7 +92,8 @@ function Login({ setUid }: LoginProps) {
         <button type="submit">Submit</button>
       </form>
       <p>
-        Don't have an account? <button onClick={()=>setUid("reg")}>Register now</button>
+        Don't have an account?{" "}
+        <Link to='/register'>Register Now</Link>
       </p>
     </div>
   );

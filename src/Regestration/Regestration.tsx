@@ -2,6 +2,8 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import "./Regestration.css"
+import { api } from "@/api";
+import { Link, redirect } from "react-router";
 
 interface Errors{
     username?: string;
@@ -9,11 +11,7 @@ interface Errors{
     password?: string;
 }
 
-interface RegestrationProps {
-    setUid: (uid: string) => void;
-}
-
-function Regestration({ setUid }: RegestrationProps) {
+function Regestration() {
     const [username, setUsername] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -25,13 +23,13 @@ function Regestration({ setUid }: RegestrationProps) {
         if (!username) {
             newErrors.username = "Username is required";
         }
+        else if (username.length < 3) {
+            newErrors.username = "Username must be at least 3 character";
+        }
         if (!email.trim()) {
             newErrors.email = "Email is required";
         } else if (!/\S+@\S+\.\S+/.test(email) || /[A-Z]/.test(email)) {
             newErrors.email = "Email is invalid";
-        }
-        else if (localStorage.getItem(email)) {
-            newErrors.email = "Email is already registered";
         }
         if (!password) {
             newErrors.password = "Password is required";
@@ -40,19 +38,30 @@ function Regestration({ setUid }: RegestrationProps) {
         }
         return newErrors;
     };
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const validationErrors = validate();
         if (Object.keys(validationErrors).length === 0) {
             // Form is valid, proceed with submission (e.g., API call)
-            console.log("Form submitted:", { username, email, password });
-            alert("Registration successful!");
+            // console.log("Form submitted:", { username, email, password });
+            //alert("Registration successful!");
             const obj = {
                 username: username,
                 email: email,
                 password: password
             }
-            localStorage.setItem(email, JSON.stringify(obj));
+            
+            try {
+                const res = await api.post('/register', obj);
+                alert('Registration succesful');
+                console.log('res---------', res);
+                redirect('/login')
+            } catch (error) {
+                alert(error)
+            }
+
+            
+
             // Clear form fields
             setUsername("");
             setEmail("");
@@ -79,7 +88,7 @@ function Regestration({ setUid }: RegestrationProps) {
                 {errors.password && <span className="error">{errors.password}</span>}
                 <button type="submit">Submit</button>
             </form>
-             <p>Have you already registerd? <button onClick={()=>setUid("log")}>Login now</button> </p>
+             <p>Have you already registerd? <Link to='/login'>Login now</Link> </p>
         </div>
     )
 }

@@ -16,6 +16,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    height: max-content;
     background-color: aqua;
     color: black;
     font-weight: bold;
