@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      <h1 >Welcome to Kanban board</h1>
+      <h1 className="bg-blue-950 text-amber-50">Welcome to Kanban board</h1>
       {/* {uid === "reg" ? <Regestration setUid={setUid} /> : uid === "log" ? <Login setUid={setUid} /> : <Board setUid={setUid} uid={uid} />} */}
       
       {/* <Button variant="outline" size="icon">+</Button> */}

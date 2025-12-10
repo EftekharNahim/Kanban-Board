@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import "./board.css";
 import Task from "./Task/Task.tsx";
-// Update the import path below to the correct location of your Button component.
-// For example, if using shadcn/ui, it should be:
+
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api";
-
-// Or adjust the path as needed to point to the correct file.
 
 function Board() {
   const navigate = useNavigate();
@@ -19,20 +16,31 @@ function Board() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-          const res = await api.get("/me");
+        const res = await api.get("/me");
         setUsername(res.data.user.username);
-      } catch (err) {
-        alert(err?.response?.data?.message)
+
+        const tasksRes = await api.get("/tasks");
+        setBoardData(tasksRes.data.tasks);
+      } catch (err: any) {
+        alert(err.response.data.message);
         navigate("/login");
       }
     };
     fetchUser();
   }, []);
 
-  const deleteTask = (index: number) => {
-    const updatedTasks = boardData.filter((_, i) => i !== index);
-    setBoardData(updatedTasks);
-    localStorage.setItem("board", JSON.stringify(updatedTasks));
+  const addTaskToBoard = (task: any) => {
+    setBoardData((prev) => [...prev, task]);
+  };
+
+  const deleteTask = async (id: number) => {
+    try {
+      await api.delete(`/tasks/${id}`);
+      const updatedTasks = boardData.filter((task) => task.id !== id);
+      setBoardData(updatedTasks);
+    } catch (error: any) {
+      alert(error.response.data.message || "Failed to delete task");
+    }
   };
 
   const filteredTasks = (taskStatus: string) => {
@@ -43,24 +51,20 @@ function Board() {
           <h4>{task.title}</h4>
           <p>{task.description}</p>
           <div>
-            <Button onClick={() => deleteTask(index)}>Delete</Button>
+            <Button onClick={() => deleteTask(task.id)}>Delete</Button>
             {taskStatuses.map(
               (status) =>
                 status !== task.status && (
                   <Button
-                    style={{ backgroundColor: "blue", margin: "2px" }}
+                    className="bg-amber-50 rounded-md text-white m-2"
                     key={status}
-                    onClick={() => {
-                      const updatedTasks = boardData.map((t) => {
-                        if (t.id === task.id) {
-                          return { ...t, status: status };
-                        }
-                        return t;
-                      });
-                      setBoardData(updatedTasks);
-                      localStorage.setItem(
-                        "board",
-                        JSON.stringify(updatedTasks)
+                    onClick={async () => {
+                      await api.put(`/tasks/${task.id}`, { status });
+
+                      setBoardData((prev) =>
+                        prev.map((t) =>
+                          t.id === task.id ? { ...t, status } : t
+                        )
                       );
                     }}
                   >
@@ -86,8 +90,12 @@ function Board() {
   return (
     <>
       <nav className="board-nav">
-        <p>{username}</p>
-        <Link to="/login" onClick={handleLogout}>
+        <p className="p-2 rounded-md bg-teal-200 text-2xl m-2">{username}</p>
+        <Link
+          to="/login"
+          onClick={handleLogout}
+          className="p-2 hover:bg-red-600 rounded-md bg-teal-200 m-2"
+        >
           Log Out
         </Link>
       </nav>
@@ -100,8 +108,7 @@ function Board() {
               <Task
                 taskStatus="todo"
                 setTaskStatus={setStatus}
-                boardData={boardData}
-                setBoardData={setBoardData}
+                addTaskToBoard={addTaskToBoard}
               />
             ) : (
               <button onClick={() => setStatus("todo")}>Add task</button>
@@ -117,8 +124,7 @@ function Board() {
               <Task
                 taskStatus="in-progress"
                 setTaskStatus={setStatus}
-                boardData={boardData}
-                setBoardData={setBoardData}
+                addTaskToBoard={addTaskToBoard}
               />
             ) : (
               <button onClick={() => setStatus("in-progress")}>Add task</button>
@@ -134,8 +140,7 @@ function Board() {
               <Task
                 taskStatus="testing"
                 setTaskStatus={setStatus}
-                boardData={boardData}
-                setBoardData={setBoardData}
+                addTaskToBoard={addTaskToBoard}
               />
             ) : (
               <button onClick={() => setStatus("testing")}>Add task</button>
@@ -151,8 +156,7 @@ function Board() {
               <Task
                 taskStatus="finished"
                 setTaskStatus={setStatus}
-                boardData={boardData}
-                setBoardData={setBoardData}
+                addTaskToBoard={addTaskToBoard}
               />
             ) : (
               <button onClick={() => setStatus("finished")}>Add task</button>

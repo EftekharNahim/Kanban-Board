@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import "./Regestration.css"
 import { api } from "@/api";
-import { Link, redirect } from "react-router";
+import { Link, redirect,useNavigate } from "react-router";
 
 interface Errors{
     username?: string;
@@ -17,6 +17,7 @@ function Regestration() {
     const [password, setPassword] = useState<string>("");
     const [errors, setErrors] = useState<Errors>({});
     
+    const navigate = useNavigate();
 
     const validate = () => {
         const newErrors: Errors = {};
@@ -55,7 +56,7 @@ function Regestration() {
                 const res = await api.post('/register', obj);
                 alert('Registration succesful');
                 console.log('res---------', res);
-                redirect('/login')
+                navigate('/login')
             } catch (error) {
                 alert(error)
             }
